@@ -64,18 +64,18 @@ export default function AddEvent() {
     // عند الضغط على Add Event
     const handleAddClick = () => {
         if (handleValidation()) {
-            setShowModal(true); // validation passed → show modal
+            setShowModal(true); // show modal
         }
     };
 
-    // عند الضغط على Yes فالmodal
+    // when you click on add event 
     const handleSubmit = async () => {
         setShowModal(false);
         setLoading(true);
         try {
             const imageUrl = await uploadToCloudinary(event.image);
             const eventData = { ...event, image: imageUrl,price : Number(event.price) };
-            await axios.post("http://localhost:3000/event", eventData);
+            await axios.post("https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event", eventData);
                     
             toast.success("Event added successfully",1500);
             setEvent({
@@ -106,7 +106,7 @@ export default function AddEvent() {
                 </div>
             )}
             {/* Form */}
-            <div className="min-h-screen bg-green-50 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-green-50 flex items-center justify-center p-2">
                 <form className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8 space-y-4">
                     <h2 className="text-3xl font-bold text-center text-green-600">Add New Event</h2>
 

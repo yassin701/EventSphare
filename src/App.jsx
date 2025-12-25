@@ -1,20 +1,39 @@
-import { useState } from 'react'
-import { BrowserRouter,Routes ,Route } from 'react-router-dom'
-import AddEvent from '../src/pages/AddEvent'
-import { Toaster } from 'react-hot-toast'
-import './App.css'
-
-function App() {
-
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "./Components/Navbar";
+import AdminLayout from "./Components/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard";
+import AddEvent from "./pages/AddEvent";
+import AdminEvent from "./pages/Admin/AdminEvent";
+import Events from "./pages/Events";
+import { Toaster } from "react-hot-toast";
+import "./App.css";
+function AppRoutes() {
+  const location = useLocation(); // ✅ now it's inside Router
 
   return (
-    <BrowserRouter>
-      <Toaster position="top-center" reverseOrder={false} />
+    <>
+      {!location.pathname.startsWith("/admin") && <Navbar />}
+
+      <Toaster position="top-center" />
+
       <Routes>
-        <Route path='/Add' element={<AddEvent/>}/>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="add" element={<AddEvent />} />
+          <Route path="events" element={<AdminEvent />} />
+        </Route>
+
+        {/* user routes later */}
+        <Route path="/events" element={<Events />} />
       </Routes>
-    </BrowserRouter>
-  )
+    </>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
