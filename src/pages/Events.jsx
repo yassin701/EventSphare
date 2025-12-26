@@ -33,11 +33,11 @@ export default function Events() {
 
   return (
     <div className="bg-green-50 min-h-screen p-6">
-      <h1 className="text-3xl font-bold text-center text-green-600 mb-8 mt-25">
+      <h1 className="text-3xl font-bold text-center text-green-600 mb-8 mt-5">
        Events
       </h1>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {events.map((event) => (
           <EventCard
             key={event.id}
