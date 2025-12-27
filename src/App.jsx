@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
+import CartSidbar from "./Components/CartSidbar";
 import AdminLayout from "./Components/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard";
 import AddEvent from "./pages/AddEvent";
 import AdminEvent from "./pages/Admin/AdminEvent";
+import Checkout from "./pages/Checkout";
 import Events from "./pages/Events";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
@@ -12,7 +14,12 @@ function AppRoutes() {
 
   return (
     <>
-      {!location.pathname.startsWith("/admin") && <Navbar />}
+      {!location.pathname.startsWith("/admin") && (
+        <>
+          <Navbar />
+          <CartSidbar />
+        </>
+      )}
 
       <Toaster position="top-center" />
 
@@ -25,6 +32,8 @@ function AppRoutes() {
 
         {/* user routes later */}
         <Route path="/events" element={<Events />} />
+        <Route path="/checkout" element={<Checkout />} />
+
       </Routes>
     </>
   );

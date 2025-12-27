@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCart } from "../redux/cartSlice";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const totalQuantity = useSelector((s) => (s.cart.items || []).reduce((sum, it) => sum + (it.quantity || 0), 0));
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
@@ -43,9 +47,18 @@ export default function Navbar() {
 
           {/* Icons */}
           <div className="hidden sm:flex items-center space-x-4">
-            <Link to="/cart" className="text-gray-700 hover:text-green-600">
+            <button
+              onClick={() => dispatch(toggleCart())}
+              className="relative text-gray-700 hover:text-green-600 p-1"
+              aria-label="Open cart"
+            >
               <FaShoppingCart size={20} />
-            </Link>
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full px-1">
+                  {totalQuantity}
+                </span>
+              )}
+            </button>
             <Link to="/login" className="text-gray-700 hover:text-green-600">
               <FaUser size={20} />
             </Link>
@@ -66,9 +79,21 @@ export default function Navbar() {
             Contact
           </Link>
           <div className="flex items-center space-x-4 pt-2">
-            <Link onClick={() => setOpen(false)} to="/cart" className="text-gray-700 hover:text-green-600">
+            <button
+              onClick={() => {
+                setOpen(false);
+                dispatch(toggleCart());
+              }}
+              className="relative text-gray-700 hover:text-green-600 p-1"
+              aria-label="Open cart"
+            >
               <FaShoppingCart size={20} />
-            </Link>
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full px-1">
+                  {totalQuantity}
+                </span>
+              )}
+            </button>
             <Link onClick={() => setOpen(false)} to="/login" className="text-gray-700 hover:text-green-600">
               <FaUser size={20} />
             </Link>
