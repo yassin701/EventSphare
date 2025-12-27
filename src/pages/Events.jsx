@@ -7,7 +7,7 @@ export default function Events() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const categories = ["All", "Music", "Art", "Sport", "Theatre", "Other"];
+    const categories = ["All", "Music","Film", "Art", "Sport", "Theatre", "Other"];
 
 
     const filteredProducts = events
@@ -44,8 +44,8 @@ export default function Events() {
     }
 
     return (
-        <div className="bg-green-50 min-h-screen p-6">
-            <h1 className="text-3xl font-bold text-center text-green-600 mb-8 mt-5">
+        <div className=" min-h-screen p-6">
+            <h1 className="text-3xl font-bold text-center text-black mb-8 mt-15">
                 Events
             </h1>
 

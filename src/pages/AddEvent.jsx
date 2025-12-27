@@ -147,6 +147,7 @@ export default function AddEvent() {
                             >
                                 <option value="">Category</option>
                                 <option value="Music">Music</option>
+                                <option value="Film">Film</option>
                                 <option value="Art">Art</option>
                                 <option value="Sport">Sport</option>
                                 <option value="Theatre">Theatre</option>

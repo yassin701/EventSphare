@@ -12,7 +12,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <div className="shrink-0">
-            <Link to="/" className="text-2xl font-bold text-green-600">
+            <Link to="/" className="text-2xl font-bold text-black">
               EventSphere
             </Link>
           </div>

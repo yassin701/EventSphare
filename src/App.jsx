@@ -14,10 +14,9 @@ function AppRoutes() {
     <>
       {!location.pathname.startsWith("/admin") && <Navbar />}
 
-      <div className={!location.pathname.startsWith("/admin") ? "pt-16" : ""}>
-        <Toaster position="top-center" />
+      <Toaster position="top-center" />
 
-        <Routes>
+      <Routes>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="add" element={<AddEvent />} />
@@ -26,8 +25,7 @@ function AppRoutes() {
 
         {/* user routes later */}
         <Route path="/events" element={<Events />} />
-        </Routes>
-      </div>
+      </Routes>
     </>
   );
 }
