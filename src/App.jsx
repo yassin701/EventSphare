@@ -10,6 +10,7 @@ import Events from "./pages/Events";
 import AdminRoute from "./components/AdminRoute"; // 🔑 import AdminRoute
 import Login from "./pages/Admin/Login";
 import { Toaster } from "react-hot-toast";
+
 import "./App.css";
 
 function AppRoutes() {
@@ -39,6 +40,7 @@ function AppRoutes() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="add" element={<AddEvent />} />
           <Route path="events" element={<AdminEvent />} />
+        
         </Route>
 
         {/* user routes */}

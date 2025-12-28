@@ -11,8 +11,8 @@ export default function Checkout() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h2 className="text-xl font-semibold">Your cart is empty</h2>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <h2 className="text-xl font-semibold text-center">Your cart is empty</h2>
       </div>
     );
   }
@@ -20,36 +20,31 @@ export default function Checkout() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-100 to-gray-200 p-4">
       
-      {/* MAIN CARD */}
-      <div className="w-full max-w-4xl h-100 bg-white rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        {/* LEFT : ORDER */}
+        {/* ORDER SUMMARY */}
         <div className="p-6 bg-gray-50">
-          <h2 className="text-2xl font-bold text-center mb-6">
-            Order Summary
-          </h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Order Summary</h2>
 
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm"
+              className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm"
             >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-16 h-16 object-cover rounded-lg"
+                className="w-24 h-24 sm:w-16 sm:h-16 object-cover rounded-lg"
               />
 
-              <div className="flex-1">
+              <div className="flex-1 text-center sm:text-left">
                 <h3 className="font-semibold">{item.title}</h3>
                 <p className="text-sm text-gray-500">
                   {item.price} MAD × {item.quantity}
                 </p>
               </div>
 
-              <p className="font-bold">
-                {item.price * item.quantity} MAD
-              </p>
+              <p className="font-bold mt-2 sm:mt-0">{item.price * item.quantity} MAD</p>
             </div>
           ))}
 
@@ -59,11 +54,9 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* RIGHT : FORM */}
+        {/* CHECKOUT FORM */}
         <div className="p-6">
-          <h2 className="text-2xl font-bold text-center mb-6">
-            Checkout
-          </h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Checkout</h2>
 
           <form className="space-y-4">
             <input
@@ -96,6 +89,9 @@ export default function Checkout() {
             <button
               type="submit"
               className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition font-semibold"
+              onSubmit={ ()=> dispatch(clearCart())
+
+              }
             >
               Place Order
             </button>

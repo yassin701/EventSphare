@@ -27,7 +27,7 @@ export const cartSlice = createSlice({
       const existing = state.items.find(i => i.id === item.id);
 
       if (existing) {
-        existing.quantity += 1; // كل مرة تزاد وحدة
+        existing.quantity += 1; 
       } else {
         state.items.push({ ...item, quantity: 1 });
       }
