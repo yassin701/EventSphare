@@ -10,15 +10,15 @@ export default function Login() {
 
   // مثال ديال admin account
   const admin = {
-    email: "admin@gmail.com",
-    password: "123456",
+    email: "admin@event.com",
+    password: "123@456",
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (email === admin.email && password === admin.password) {
-      // Login ناجح → خزّن state ف localStorage
+
       localStorage.setItem("isAdmin", "true");
       navigate("/admin/dashboard");
     } else {

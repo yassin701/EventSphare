@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
-
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -34,8 +33,8 @@ export default function AdminLayout() {
           >
             <FaBars />
           </button>
-          <h1 className="font-semibold">Admin Panel</h1>
         </div>
+
 
         {/* Page content */}
         <main className="flex-1 overflow-y-auto p-6">
