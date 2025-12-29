@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Events from "./pages/Events";
 import AdminRoute from "./components/AdminRoute"; // 🔑 import AdminRoute
 import Login from "./pages/Admin/Login";
+import Orders from "./pages/Admin/Orders";
 import { Toaster } from "react-hot-toast";
 
 import "./App.css";
@@ -40,7 +41,7 @@ function AppRoutes() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="add" element={<AddEvent />} />
           <Route path="events" element={<AdminEvent />} />
-        
+         <Route path="orders" element={<Orders />} />
         </Route>
 
         {/* user routes */}

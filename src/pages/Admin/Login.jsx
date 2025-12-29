@@ -8,7 +8,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // مثال ديال admin account
   const admin = {
     email: "admin@event.com",
     password: "123@456",

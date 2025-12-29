@@ -27,7 +27,7 @@ export const cartSlice = createSlice({
       const existing = state.items.find(i => i.id === item.id);
 
       if (existing) {
-        existing.quantity += 1; 
+        existing.quantity += 1;
       } else {
         state.items.push({ ...item, quantity: 1 });
       }
@@ -61,8 +61,16 @@ export const cartSlice = createSlice({
     openCart: (state) => { state.isOpen = true; },
     closeCart: (state) => { state.isOpen = false; },
     toggleCart: (state) => { state.isOpen = !state.isOpen; },
+
+    clearCart: (state) => {
+      state.items = [];
+      state.isOpen = false;
+      localStorage.removeItem("cart");
+    },
+
+
   }
 });
 
-export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity, openCart, closeCart, toggleCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity, openCart, closeCart, toggleCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
