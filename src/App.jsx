@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Events from "./pages/Events";
 import AdminRoute from "./components/AdminRoute"; // 🔑 import AdminRoute
 import Login from "./pages/Admin/Login";
+import Home from "./pages/Home";
 import Orders from "./pages/Admin/Orders";
 import { Toaster } from "react-hot-toast";
 
@@ -45,6 +46,7 @@ function AppRoutes() {
         </Route>
 
         {/* user routes */}
+        <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
