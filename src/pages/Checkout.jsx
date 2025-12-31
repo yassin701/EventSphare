@@ -17,6 +17,7 @@ export default function Checkout() {
     e.preventDefault();
 
     const form = e.target;
+
     const orderData = {
       fullName: form.fullName.value,
       email: form.email.value,
@@ -28,34 +29,47 @@ export default function Checkout() {
       date: new Date().toISOString(),
     };
 
+    /* 1️⃣ Send to MockAPI (OPTIONAL) */
     try {
       await axios.post(
         "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders",
+        {
+          fullName: orderData.fullName,
+          email: orderData.email,
+          total: orderData.total,
+        }
+      );
+    } catch (err) {
+      console.warn("MockAPI failed, continuing...");
+    }
+
+    /* 2️⃣ Send to n8n (IMPORTANT) */
+    try {
+      await axios.post(
+        import.meta.env.VITE_N8N_WEBHOOK_URL,
         orderData
       );
-
-      // ✅ Show modal FIRST
-      setShowModal(true);
-    } catch (error) {
-      console.error("Failed to send order:", error);
+    } catch (err) {
+      console.error("n8n error:", err);
     }
+
+    /* 3️⃣ Always show success modal */
+    setShowModal(true);
   };
 
-  // ✅ EMPTY CART CHECK (modal safe)
+  /* EMPTY CART CHECK */
   if (items.length === 0 && !showModal) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <h2 className="text-xl font-semibold text-center">
-          Your cart is empty
-        </h2>
+      <div className="min-h-screen flex items-center justify-center">
+        <h2 className="text-xl font-semibold">Your cart is empty</h2>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-100 to-gray-200 p-4">
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-6">
+
         {/* ORDER SUMMARY */}
         <div className="p-6 bg-gray-50">
           <h2 className="text-2xl font-bold text-center mb-6">
@@ -65,15 +79,15 @@ export default function Checkout() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col sm:flex-row items-center gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm"
+              className="flex items-center gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm"
             >
               <img
                 src={item.image}
-                alt={item.title}
+                alt={item.name}
                 className="w-24 h-24 object-cover rounded-lg"
               />
-              <div className="flex-1 text-center sm:text-left">
-                <h3 className="font-semibold">{item.title}</h3>
+              <div className="flex-1">
+                <h3 className="font-semibold">{item.name}</h3>
                 <p className="text-sm text-gray-500">
                   {item.price} MAD × {item.quantity}
                 </p>
@@ -118,18 +132,16 @@ export default function Checkout() {
         </div>
       </div>
 
-      {/* ✅ SUCCESS MODAL */}
+      {/* SUCCESS MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg w-80 text-center">
-            <h2 className="text-lg font-bold mb-4">
-              Order Complete
-            </h2>
+            <h2 className="text-lg font-bold mb-4">Order Complete</h2>
             <p>Your order has been placed successfully!</p>
 
             <button
               onClick={() => {
-                dispatch(clearCart()); // clear cart HERE
+                dispatch(clearCart());
                 setShowModal(false);
               }}
               className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg"

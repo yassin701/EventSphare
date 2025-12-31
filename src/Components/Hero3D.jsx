@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 export default function Hero3D() {
+  const navigate = useNavigate();
+
   return (
-    <section className="min-h-screen flex items-center justify-center bg-linear-to-br from-black via-gray-900 to-black text-white px-6">
+    <section className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-300 via-yellow-900 to-black text-white px-6">
       
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         
@@ -21,7 +23,7 @@ export default function Hero3D() {
             Book tickets instantly with a smooth experience.
           </p>
 
-          <button className="mt-8 px-8 py-4 bg-green-500 text-black rounded-xl font-semibold hover:scale-105 transition">
+          <button onClick={()=> navigate("/events")} className="mt-8 px-8 py-4 bg-green-500 text-black rounded-xl font-semibold hover:scale-105 transition">
             Explore Events
           </button>
         </motion.div>

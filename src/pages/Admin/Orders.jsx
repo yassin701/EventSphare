@@ -60,8 +60,8 @@ export default function Orders() {
               <td className="py-3 px-4">
                 {order.items.map(item => (
                   <div key={item.id} className="flex items-center gap-2 mb-1">
-                    <img src={item.image} alt={item.title} className="w-8 h-8 object-cover rounded" />
-                    <span className="text-sm">{item.title} ({item.quantity})</span>
+                    <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded" />
+                    <span className="text-sm">{item.name} ({item.quantity})</span>
                   </div>
                 ))}
               </td>
