@@ -15,7 +15,6 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const form = e.target;
 
     const orderData = {
@@ -24,26 +23,28 @@ export default function Checkout() {
       address: form.address.value,
       phone: form.phone.value,
       paymentMethod: form.payment.value,
-      items,
+      items: items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+      })),
       total: totalPrice,
       date: new Date().toISOString(),
     };
 
-    /* 1️⃣ Send to MockAPI (OPTIONAL) */
+    /* Send FULL order to MockAPI */
     try {
       await axios.post(
         "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders",
-        {
-          fullName: orderData.fullName,
-          email: orderData.email,
-          total: orderData.total,
-        }
+        orderData
       );
     } catch (err) {
-      console.warn("MockAPI failed, continuing...");
+      console.warn("MockAPI failed:", err);
     }
 
-    /* 2️⃣ Send to n8n (IMPORTANT) */
+    /* Send to n8n */
     try {
       await axios.post(
         import.meta.env.VITE_N8N_WEBHOOK_URL,
@@ -53,11 +54,9 @@ export default function Checkout() {
       console.error("n8n error:", err);
     }
 
-    /* 3️⃣ Always show success modal */
     setShowModal(true);
   };
 
-  /* EMPTY CART CHECK */
   if (items.length === 0 && !showModal) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -124,7 +123,7 @@ export default function Checkout() {
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg"
+              className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-700"
             >
               Place Order
             </button>

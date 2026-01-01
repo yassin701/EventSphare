@@ -12,6 +12,7 @@ import Login from "./pages/Admin/Login";
 import Home from "./pages/Home";
 import Orders from "./pages/Admin/Orders";
 import { Toaster } from "react-hot-toast";
+import Contact from "./pages/Contact";
 
 import "./App.css";
 
@@ -43,12 +44,14 @@ function AppRoutes() {
           <Route path="add" element={<AddEvent />} />
           <Route path="events" element={<AdminEvent />} />
          <Route path="orders" element={<Orders />} />
+
         </Route>
 
         {/* user routes */}
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </>
   );

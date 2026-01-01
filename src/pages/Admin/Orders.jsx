@@ -9,7 +9,9 @@ export default function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get("https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders");
+        const res = await axios.get(
+          "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders"
+        );
         setOrders(res.data);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
@@ -22,8 +24,10 @@ export default function Orders() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders/${id}`);
-      setOrders(prev => prev.filter(order => order.id !== id));
+      await axios.delete(
+        `https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders/${id}`
+      );
+      setOrders((prev) => prev.filter((order) => order.id !== id));
     } catch (err) {
       console.error("Failed to delete order:", err);
     }
@@ -48,6 +52,7 @@ export default function Orders() {
             <th className="py-3 px-4 text-left">Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {orders.map((order, index) => (
             <tr key={order.id} className="border-b hover:bg-gray-50">
@@ -57,17 +62,35 @@ export default function Orders() {
               <td className="py-3 px-4">{order.address}</td>
               <td className="py-3 px-4">{order.phone}</td>
               <td className="py-3 px-4 font-semibold">{order.total} MAD</td>
+
               <td className="py-3 px-4">
-                {order.items.map(item => (
-                  <div key={item.id} className="flex items-center gap-2 mb-1">
-                    <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded" />
-                    <span className="text-sm">{item.name} ({item.quantity})</span>
-                  </div>
-                ))}
+                {order.items && order.items.length > 0 ? (
+                  order.items.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 mb-1">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-8 h-8 object-cover rounded"
+                      />
+                      <span className="text-sm">
+                        {item.name} ({item.quantity})
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <span className="text-gray-400 text-sm">No items</span>
+                )}
               </td>
-              <td className="py-3 px-4 text-sm text-gray-500">{new Date(order.date).toLocaleString()}</td>
+
+              <td className="py-3 px-4 text-sm text-gray-500">
+                {order.date ? new Date(order.date).toLocaleString() : "-"}
+              </td>
+
               <td className="py-3 px-4">
-                <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(order.id)} />
+                <FaTrash
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDelete(order.id)}
+                />
               </td>
             </tr>
           ))}
