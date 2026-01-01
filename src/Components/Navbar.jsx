@@ -10,7 +10,8 @@ export default function Navbar() {
   const totalQuantity = useSelector((s) => (s.cart.items || []).reduce((sum, it) => sum + (it.quantity || 0), 0));
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
+    <nav className="fixed top-0 left-0 w-full bg-white/30 shadow-md z-50 backdrop-blur-3xl">
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
 

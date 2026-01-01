@@ -25,6 +25,7 @@ function AppRoutes() {
         <>
           <Navbar />
           <CartSidbar />
+         
         </>
       )}
 
@@ -52,7 +53,9 @@ function AppRoutes() {
         <Route path="/events" element={<Events />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<Contact />} />
+      
       </Routes>
+       
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import EventCard from "../Components/EventCard";
-
+import Footer from "../Components/Footer";
 export default function Events() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,6 +44,7 @@ export default function Events() {
     }
 
     return (
+    <>
         <div className=" min-h-screen p-6">
             <h1 className="text-3xl font-bold text-center text-black mb-8 mt-15">
                 Events
@@ -84,5 +85,7 @@ export default function Events() {
                 ))}
             </div>
         </div>
+        <Footer />
+        </>
     );
 }

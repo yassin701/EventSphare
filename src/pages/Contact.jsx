@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import Footer from "../Components/Footer";
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
@@ -50,6 +50,7 @@ export default function Contact() {
   };
 
   return (
+    <>
     <div className="max-w-md mx-auto p-5 mt-0 min-h-screen flex flex-col justify-center">
       <h1 className="text-black text-3xl mb-6 text-center">Contact Us</h1>
 
@@ -93,5 +94,8 @@ export default function Contact() {
         </button>
       </form>
     </div>
+
+    <Footer />
+    </>
   );
 }

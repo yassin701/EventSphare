@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 
 export default function EventCard({
-  event,
+  event = {},
   isAdmin = false,
   onEdit,
   onDelete,
@@ -11,46 +11,56 @@ export default function EventCard({
 }) {
   const dispatch = useDispatch();
 
+  const safeEvent = {
+    id: event.id || Math.random().toString(36).substr(2, 9),
+    name: event.name || "Untitled Event",
+    image: event.image || "https://via.placeholder.com/400x500?text=Event",
+    price: event.price || 0,
+    date: event.date || "Date TBD",
+    category: event.category || "General",
+    description: event.description || "No description available",
+    ...event,
+  };
+
   return (
     <div className="group relative bg-gray-900 rounded-xl overflow-hidden border
-     border-gray-800 hover:border-purple-500/50 transition-all duration-300 shadow-lg h-full max-w-sm mx-auto">
+      border-gray-800 hover:border-purple-500/50 transition-all duration-300 shadow-lg h-full max-w-sm mx-auto">
+      
       <div className="aspect-4/5 relative overflow-hidden">
         <img
-          src={event.image}
-          alt={event.name}
+          src={safeEvent.image}
+          alt={safeEvent.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
         />
-
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-gray-900/20 to-gray-900" />
-
         <div className="absolute top-2 right-2 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-lg">
-          {event.category}
+          {safeEvent.category}
         </div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-3 pt-8 bg-linear-to-t from-gray-900 via-gray-900/95 to-transparent">
         <div className="flex items-center gap-1.5 text-purple-400 text-[10px] font-bold mb-1 uppercase tracking-wider">
-          <FaCalendarAlt size={10} /> {event.date}
+          <FaCalendarAlt size={10} /> {safeEvent.date}
         </div>
 
         <h3 className="text-white text-base font-bold mb-1 truncate leading-tight">
-          {event.name}
+          {safeEvent.name}
         </h3>
 
         <p className="text-gray-400 text-xs line-clamp-2 mb-3 leading-relaxed">
-          {event.description}
+          {safeEvent.description}
         </p>
 
         <div className="flex items-center justify-between border-t border-gray-700 pt-3">
           <div className="text-white font-bold text-base">
-            {event.price}{" "}
+            {safeEvent.price}{" "}
             <span className="text-gray-500 text-[10px] uppercase">MAD</span>
           </div>
 
           {!isAdmin ? (
             <button
               onClick={() => {
-                const item = { ...event, quantity: 1 };
+                const item = { ...safeEvent, quantity: 1 };
                 if (onAddToCart) onAddToCart(item);
                 else dispatch(addToCart(item));
               }}
@@ -61,14 +71,14 @@ export default function EventCard({
           ) : (
             <div className="flex gap-1.5">
               <button
-                onClick={() => onEdit && onEdit(event)}
+                onClick={() => onEdit && onEdit(safeEvent)}
                 className="bg-gray-800 p-1.5 rounded-md text-gray-400 hover:text-blue-400 hover:bg-gray-700 transition-colors"
               >
                 <FaEdit size={12} />
               </button>
 
               <button
-                onClick={() => onDelete && onDelete(event.id)}
+                onClick={() => onDelete && onDelete(safeEvent.id)}
                 className="bg-gray-800 p-1.5 rounded-md text-gray-400 hover:text-red-400 hover:bg-gray-700 transition-colors"
               >
                 <FaTrash size={12} />
