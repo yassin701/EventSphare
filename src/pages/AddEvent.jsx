@@ -106,7 +106,7 @@ export default function AddEvent() {
                 </div>
             )}
             {/* Form */}
-            <div className=" flex items-center justify-center  ">
+            <div className=" flex items-center justify-center  mt-5 ">
                 <form className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8 space-y-2">
                     <h2 className="text-3xl font-bold text-center text-green-600">Add New Event</h2>
 
