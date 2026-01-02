@@ -7,7 +7,7 @@ import AddEvent from "./pages/AddEvent";
 import AdminEvent from "./pages/Admin/AdminEvent";
 import Checkout from "./pages/Checkout";
 import Events from "./pages/Events";
-import AdminRoute from "./components/AdminRoute"; // 🔑 import AdminRoute
+import AdminRoute from "./Components/AdminRoute"; 
 import Login from "./pages/Admin/Login";
 import Home from "./pages/Home";
 import Orders from "./pages/Admin/Orders";

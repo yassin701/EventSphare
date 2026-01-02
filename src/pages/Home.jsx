@@ -6,12 +6,13 @@ import Footer from "../Components/Footer";
 export default function Home() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_APP_API_URL;
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const res = await axios.get(
-          "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event"
+          `${API_URL}/event`
         );
         setEvents(res.data || []);
       } catch (err) {

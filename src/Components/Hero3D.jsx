@@ -24,7 +24,7 @@ export default function Hero3D() {
             Book tickets instantly with a smooth experience.
           </p>
 
-          <button onClick={()=> navigate("/events")} className="mt-8 px-8 py-4 bg-gray-500 text-white rounded-xl font-semibold hover:scale-105 transition">
+          <button onClick={()=> navigate("/events")} className="mt-8 px-8 py-4 bg-gray-300 text-black rounded-xl font-semibold hover:scale-105 transition">
             Explore Events
           </button>
         </motion.div>

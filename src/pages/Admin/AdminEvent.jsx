@@ -12,6 +12,7 @@ export default function AdminEvent() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const API_URL = import.meta.env.VITE_APP_API_URL;
 
   // Fetch events
   useEffect(() => {
@@ -22,7 +23,7 @@ export default function AdminEvent() {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event"
+        `${API_URL}/event`
       );
       setEvents(res.data);
     } catch (error) {
@@ -48,7 +49,7 @@ export default function AdminEvent() {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event/${selectedEvent.id}`
+        `${API_URL}/event/${selectedEvent.id}`
       );
 
       setEvents((prev) =>
@@ -66,7 +67,7 @@ export default function AdminEvent() {
  const confirmEdit = async (updatedEvent) => {
   try {
     await axios.put(
-      `https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event/${updatedEvent.id}`,
+      `${API_URL}/event/${updatedEvent.id}`,
       updatedEvent
     );
 

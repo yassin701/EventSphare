@@ -5,12 +5,13 @@ import { FaTrash } from "react-icons/fa";
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_APP_API_URL;
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          "https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders"
+          `${API_URL}/orders`
         );
         setOrders(res.data);
       } catch (err) {
@@ -25,7 +26,7 @@ export default function Orders() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders/${id}`
+        `${API_URL}/orders/${id}`
       );
       setOrders((prev) => prev.filter((order) => order.id !== id));
     } catch (err) {

@@ -6,6 +6,7 @@ export default function AddEvent() {
     
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
+    const API_URL = import.meta.env.VITE_APP_API_URL;
         const [event, setEvent] = useState({
         name: "",
         description: "",
@@ -75,7 +76,7 @@ export default function AddEvent() {
         try {
             const imageUrl = await uploadToCloudinary(event.image);
             const eventData = { ...event, image: imageUrl,price : Number(event.price) };
-            await axios.post("https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event", eventData);
+            await axios.post(`${API_URL}/event`, eventData);
                     
             toast.success("Event added successfully",1500);
             setEvent({

@@ -4,13 +4,15 @@ export default function Dashboard() {
   const [events, setEvents] = useState([]);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_APP_API_URL;
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [eventsRes, ordersRes] = await Promise.all([
-          fetch("https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/event"),
-          fetch("https://694d36b2ad0f8c8e6e200cec.mockapi.io/api/v1/orders"),
+          fetch(`${API_URL}/event`),
+          fetch(`${API_URL}/orders`),
         ]);
 
         const eventsData = eventsRes.ok ? await eventsRes.json() : [];
