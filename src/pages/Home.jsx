@@ -6,8 +6,7 @@ import Footer from "../Components/Footer";
 export default function Home() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_APP_API_URL;
-
+ const API_URL = import.meta.env.VITE_APP_API_URL;
   useEffect(() => {
     const fetchEvents = async () => {
       try {
