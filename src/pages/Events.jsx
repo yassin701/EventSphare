@@ -90,7 +90,7 @@ export default function Events() {
     if (loading) {
         return (
             <div className="min-h-screen p-6">
-                <h1 className="text-3xl font-bold text-center text-black mb-8 mt-15">
+                <h1 className="text-3xl font-bold text-center text-black mb-8 mt-20">
                     Events
                 </h1>
                 
@@ -132,7 +132,7 @@ export default function Events() {
         <>
             <div className="min-h-screen p-6">
                 <motion.h1 
-                    className="text-3xl font-bold text-center text-black mb-8 mt-15"
+                    className="text-3xl font-bold text-center bg-linear-to-r from-blue-600 via-purple-300 to-pink-600 bg-clip-text text-transparent hover:opacity-90 transition-opacity duration-200 mb-8 mt-20"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}

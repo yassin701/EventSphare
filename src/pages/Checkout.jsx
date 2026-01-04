@@ -1,4 +1,4 @@
-import React, { useState, useEffect , } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../redux/cartSlice";
 import axios from "axios";
@@ -9,6 +9,7 @@ export default function Checkout() {
   const { items } = useSelector((state) => state.cart);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+
   const API_URL = import.meta.env.VITE_APP_API_URL;
 
   const totalPrice = items.reduce(
@@ -26,83 +27,72 @@ export default function Checkout() {
       address: form.address.value,
       phone: form.phone.value,
       paymentMethod: form.payment.value,
-      items: items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        image: item.image,
-        price: item.price,
-        quantity: item.quantity,
-      })),
+      items,
       total: totalPrice,
       date: new Date().toISOString(),
     };
 
-    /* Send FULL order to MockAPI */
     try {
       await axios.post(`${API_URL}/orders`, orderData);
-    } catch (err) {
-      console.warn("MockAPI failed:", err);
-    }
-
-    /* Send to n8n */
-    try {
       await axios.post(import.meta.env.VITE_N8N_WEBHOOK_URL, orderData);
+      setShowModal(true);
     } catch (err) {
-      console.error("n8n error:", err);
+      console.error(err);
     }
-
-    setShowModal(true);
   };
 
-  // Automatically clear cart and hide modal after 3s
   useEffect(() => {
     if (showModal) {
       const timer = setTimeout(() => {
         dispatch(clearCart());
-        setShowModal(false);
         navigate("/events");
       }, 2000);
+
       return () => clearTimeout(timer);
     }
-  }, [showModal, dispatch]);
+  }, [showModal, dispatch, navigate]);
 
   if (items.length === 0 && !showModal) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-purple-900 to-black text-white">
         <h2 className="text-xl font-semibold">Your cart is empty</h2>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-purple-900 to-black p-6">
+      <div className="w-full max-w-5xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl grid grid-cols-1 lg:grid-cols-2 gap-6 text-white">
 
         {/* ORDER SUMMARY */}
-        <div className="p-6 bg-gray-50">
+        <div className="p-6 bg-white/5 rounded-3xl">
           <h2 className="text-2xl font-bold text-center mb-6">Order Summary</h2>
 
           {items.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 mb-4 p-3 bg-white rounded-xl shadow-sm"
+              className="flex items-center gap-4 mb-4 p-3 bg-white/10 rounded-xl"
             >
               <img
                 src={item.image}
                 alt={item.name}
                 className="w-24 h-24 object-cover rounded-lg"
               />
+
               <div className="flex-1">
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-300">
                   {item.price} MAD × {item.quantity}
                 </p>
               </div>
-              <p className="font-bold">{item.price * item.quantity} MAD</p>
+
+              <p className="font-bold">
+                {item.price * item.quantity} MAD
+              </p>
             </div>
           ))}
 
-          <div className="flex justify-between mt-6 pt-4 border-t text-lg font-bold">
+          <div className="flex justify-between mt-6 pt-4 border-t border-white/20 text-lg font-bold">
             <span>Total</span>
             <span>{totalPrice} MAD</span>
           </div>
@@ -113,44 +103,29 @@ export default function Checkout() {
           <h2 className="text-2xl font-bold text-center mb-6">Checkout</h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
-              name="fullName"
-              required
-              className="w-full border px-4 py-2 rounded-lg"
-              placeholder="Full Name"
-            />
-            <input
-              name="email"
-              type="email"
-              required
-              className="w-full border px-4 py-2 rounded-lg"
-              placeholder="Email"
-            />
-            <input
-              name="address"
-              required
-              className="w-full border px-4 py-2 rounded-lg"
-              placeholder="Address"
-            />
-            <input
-              name="phone"
-              required
-              className="w-full border px-4 py-2 rounded-lg"
-              placeholder="Phone"
-            />
+            {["fullName", "email", "address", "phone"].map((field) => (
+              <input
+                key={field}
+                name={field}
+                required
+                type={field === "email" ? "email" : "text"}
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              />
+            ))}
 
             <select
               name="payment"
-              className="w-full border px-4 py-2 rounded-lg"
+              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:ring-2 focus:ring-purple-400"
             >
-              <option>Cash on Delivery</option>
-              <option>Credit Card</option>
-              <option>PayPal</option>
+              <option className="text-black">Cash on Delivery</option>
+              <option className="text-black">Credit Card</option>
+              <option className="text-black">PayPal</option>
             </select>
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-700"
+              className="w-full py-3 rounded-xl font-semibold bg-linear-to-r from-blue-500 via-purple-500 to-gray-700 hover:opacity-90 transition shadow-lg"
             >
               Place Order
             </button>
@@ -158,15 +133,13 @@ export default function Checkout() {
         </div>
       </div>
 
-      {/* SUCCESS ANIMATION */}
+      {/* SUCCESS MODAL */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white p-10 rounded-2xl shadow-2xl flex flex-col items-center animate-scale-in">
-
-            {/* Check Animation */}
-            <div className="w-20 h-20 rounded-full border-4 border-green-500 flex items-center justify-center animate-success">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+          <div className="bg-white/10 backdrop-blur-xl p-10 rounded-3xl shadow-2xl flex flex-col items-center text-white">
+            <div className="w-20 h-20 rounded-full border-4 border-purple-400 flex items-center justify-center">
               <svg
-                className="w-10 h-10 text-green-500"
+                className="w-10 h-10 text-green-400"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="3"
@@ -176,11 +149,8 @@ export default function Checkout() {
               </svg>
             </div>
 
-            <h2 className="mt-6 text-xl font-bold text-green-600">
-              Order Successful
-            </h2>
-
-            <p className="text-gray-500 mt-2 text-center">
+            <h2 className="mt-6 text-xl font-bold">Order Successful</h2>
+            <p className="text-gray-300 mt-2 text-center">
               Your order has been placed successfully 🎉
             </p>
           </div>

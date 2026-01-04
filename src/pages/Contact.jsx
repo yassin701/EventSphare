@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Footer from "../Components/Footer";
+
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const APIURL = import.meta.env.VITE_API_CONTACT_URL;
 
@@ -37,6 +39,8 @@ export default function Contact() {
     setErrors(newErrors);
     if (!isValid) return;
 
+    setLoading(true);
+    
     try {
       await axios.post(APIURL, form);
       setSuccess(true);
@@ -45,57 +49,114 @@ export default function Contact() {
 
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
-      console.error("n8n error:", error);
+      console.error("Error:", error);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-    <div className="max-w-md mx-auto p-5 mt-0 min-h-screen flex flex-col justify-center">
-      <h1 className="text-black text-3xl mb-6 text-center">Contact Us</h1>
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 to-blue-50 px-4 pt-20 pb-12">
+        <div className="w-full max-w-lg">
+          <div className="text-center mb-5">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2 mt-3">Contact Us</h1>
+            <p className="text-gray-600">We'll get back to you as soon as possible.</p>
+          </div>
 
-      {success && (
-        <p className="text-green-600 font-semibold mb-4 text-center">
-          Message sent successfully!
-        </p>
-      )}
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            {success && (
+              <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl border border-green-200 text-center">
+                Message sent successfully! We'll respond soon.
+              </div>
+            )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className={`p-2 border ${errors.name ? "border-red-500" : "border-gray-300"} rounded w-full`}
-        />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <input
+                  name="name"
+                  placeholder="Your name"
+                  value={form.name}
+                  onChange={(e) => {
+                    setForm({ ...form, name: e.target.value });
+                    if (errors.name) setErrors({ ...errors, name: "" });
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+                    errors.name ? "border-red-300" : "border-gray-300"
+                  }`}
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                )}
+              </div>
 
-        <input
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className={`p-2 border ${errors.email ? "border-red-500" : "border-gray-300"} rounded w-full`}
-        />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={(e) => {
+                    setForm({ ...form, email: e.target.value });
+                    if (errors.email) setErrors({ ...errors, email: "" });
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+                    errors.email ? "border-red-300" : "border-gray-300"
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
+              </div>
 
-        <textarea
-          name="message"
-          placeholder="Message"
-          rows="4"
-          value={form.message}
-          onChange={(e) => setForm({ ...form, message: e.target.value })}
-          className={`p-2 border ${errors.message ? "border-red-500" : "border-gray-300"} rounded w-full`}
-        />
-        {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  placeholder="How can we help you?"
+                  rows="4"
+                  value={form.message}
+                  onChange={(e) => {
+                    setForm({ ...form, message: e.target.value });
+                    if (errors.message) setErrors({ ...errors, message: "" });
+                  }}
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${
+                    errors.message ? "border-red-300" : "border-gray-300"
+                  }`}
+                />
+                {errors.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                )}
+              </div>
 
-        <button className="p-2.5 bg-black text-white rounded hover:bg-gray-800">
-          Send
-        </button>
-      </form>
-    </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-all duration-200 ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-linear-to-r from-blue-600 to-purple-600 hover:opacity-90"
+                }`}
+              >
+                {loading ? "Sending..." : "Send Message"}
+              </button>
+            </form>
 
-    <Footer />
+          
+          </div>
+        </div>
+      </div>
+
+      <Footer />
     </>
   );
 }

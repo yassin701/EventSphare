@@ -9,10 +9,9 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const admin = {
-    email: "admin@event.com",
-    password: "123@456",
-  };
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +20,7 @@ export default function Login() {
 
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (email === admin.email && password === admin.password) {
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
       navigate("/admin/dashboard");
     } else {
